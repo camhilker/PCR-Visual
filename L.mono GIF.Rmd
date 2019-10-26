@@ -1,0 +1,38 @@
+---
+title: "L.Mono GIF"
+output: html_notebook
+---
+
+```{r}
+HEX <- read.table("/Users/CamelliaHilker/Desktop/012419-3 -  Quantification Amplification Results_HEX.csv", header=TRUE, sep=",")
+FAM <- read.table("/Users/CamelliaHilker/Desktop/012419-3 -  Quantification Amplification Results_FAM.csv", header=TRUE, sep=",")
+HEX$X <- NULL
+HEX$Cycle <- NULL
+FAM$X <- NULL
+FAM$Cycle <- NULL
+
+#vector of full plate to index
+N2 = paste(rep(LETTERS[1:8], each=12), rep(1:12, times=8), sep="")
+
+#generate plot images for HEX
+for (i in 1:nrow(HEX)){
+  fluorVals <- HEX[i,]
+  fluorVals = unlist(fluorVals)
+  fluorVals = fluorVals[N2]
+  png(filename=paste("/Users/CamelliaHilker/Desktop/HEX images/",i,".png", sep=""))
+  plotPlate(fluorVals, nrow=8, ncol=12, main="HEX fluorescence", na.action="xout", col=brewer.pal(9, "YlGn"), xrange=c(0,20000))
+  dev.off()
+}
+
+#generate plot images for FAM
+for (i in 1:nrow(FAM)){
+  fluorVals <- FAM[i,]
+  fluorVals = unlist(fluorVals)
+  fluorVals = fluorVals[N2]
+  png(filename=paste("/Users/CamelliaHilker/Desktop/FAM images/",i,".png", sep=""))
+  plotPlate(fluorVals, nrow=8, ncol=12, main="FAM fluorescence", na.action="xout", col=brewer.pal(9, "BuGn"), xrange=c(0,20000))
+  dev.off()
+}
+
+```
+
